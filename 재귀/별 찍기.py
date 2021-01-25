@@ -1,11 +1,13 @@
-def print_star(stars):
+def print_star(stars,e):
+    if e <= 0:
+        return stars
     temp_star = []
     for i in range(len(stars)*3):
         if i//len(stars) == 1:
             temp_star.append(stars[i % len(stars)] + " " * len(stars) + stars[i % len(stars)])
         else:
             temp_star.append(stars[i % len(stars)] * 3)
-    return temp_star
+    return print_star(temp_star,e-1)
 
 import sys
 n = int(sys.stdin.readline())
@@ -14,10 +16,7 @@ star = ["***", "* *", "***"]
 while n != 3:
     n = n//3
     e += 1
-for i in range(e):
-    star = print_star(star)
+star = print_star(star,e)
 for i in star:
     print(i)
-
-
 
