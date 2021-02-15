@@ -1,49 +1,64 @@
+def dfs(origin_x, origin_y):
+    global answer
+
+    if graph[origin_x][origin_y] == 1:
+        for i in range(5,0,-1):
+            if (paper_dict[i] > 0) and (origin_x + i <= 10) and (origin_y + i <= 10):
+                check = True
+                for j in range(i):
+                    for k in range(i):
+                        if graph[origin_x+j][origin_y+k] == 0:
+                            check = False
+                            break
+                    if check == False:
+                        break
+
+                if check:
+                    paper_dict[i] -= 1
+                    for j in range(i):
+                        for k in range(i):
+                            graph[origin_x+j][origin_y+k] = 0
+
+                    if origin_y < 9:
+                        dfs(origin_x, origin_y+1)
+                    elif origin_x < 9:
+                        dfs(origin_x+1, 0)
+                    else:
+                        temp = 0
+                        for x in range(1,6):
+                            temp += 5 - paper_dict[x]
+                        if answer > temp:
+                            answer = temp
+                        return
+
+                    paper_dict[i] += 1
+                    for j in range(i):
+                        for k in range(i):
+                            graph[origin_x+j][origin_y+k] = 1
+
+    else:
+        if origin_y < 9:
+            dfs(origin_x, origin_y + 1)
+        elif origin_x < 9:
+            dfs(origin_x + 1, 0)
+        else:
+            temp = 0
+            for x in range(1, 6):
+                temp += 5 - paper_dict[x]
+            if answer > temp:
+                answer = temp
+            return
+
+
+
+
+
 import sys
-
-paper_cnt = 0
-graph = []
-
-for i in range(10):
-    temp = []
-
-    for j in list(map(int,sys.stdin.readline().split())):
-        if j == 1:
-            paper_cnt += 1
-        temp.append(j)
-    graph.append(temp)
-
-cnt = 0
+paper_dict = {1: 5, 2: 5, 3: 5, 4:5, 5:5}
+graph = [list(map(int,sys.stdin.readline().split())) for i in range(10)]
+answer = float('inf')
 
 
-def dfs(graph, size, origin):
-    if size > 5:
-        return [1,(size-1)**2]
-    x_origin = origin[0]
-    y_origin = origin[1]
-
-    for i in range(y_origin, y_origin + size - 1):
-        if graph[x_origin + size - 1][i] == 0:
-            return [1,(size-1)**2]
-
-    for i in range(x_origin, x_origin + size):
-        if graph[i][y_origin + size - 1] == 0:
-            return [1,(size-1)**2]
-
-    for i in range(y_origin, y_origin + size - 1):
-        graph[x_origin + size - 1][i] = 0
-
-    for i in range(x_origin, x_origin + size):
-        graph[i][y_origin + size - 1] = 0
-
-    return dfs(graph, size + 1, origin)
-
-for i in range(10):
-    for j in range(10):
-        if graph[i][j] == 1:
-            temp_cnt, temp_paper =  dfs(graph,2,[i,j])
-            cnt += temp_cnt
-            paper_cnt -= temp_paper
-
-print(cnt)
-print(paper_cnt)
+dfs(0,0)
+print([answer, -1][answer == float('inf')])
 
