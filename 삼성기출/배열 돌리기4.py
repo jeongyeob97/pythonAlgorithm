@@ -1,15 +1,17 @@
 import sys
 from itertools import permutations
 from copy import deepcopy
-# cnt = ((end_origin[0] - start_origin[0] + 1) * 2 + (end_origin[1] - start_origin[1] + 1) * 2) - 4
+
 n, m, k = map(int,sys.stdin.readline().split())
 
 array = [list(map(int, sys.stdin.readline().split())) for i in range(n)]
 standard = deepcopy(array)
+
 answer = float('inf')
 spin = [list(map(int, sys.stdin.readline().split())) for i in range(k)]
 
 spin_orders = list(permutations([i for i in range(k)],k))
+
 for i in spin_orders:
     for j in i:
         r, c, s = spin[j]

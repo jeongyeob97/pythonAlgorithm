@@ -24,7 +24,6 @@ for i in range(n):
     temp = list(map(int,sys.stdin.readline().split()))
     graph_dict[i+1] = temp[1:]
 
-
 for i in range(1,n//2+1):
     combination_result = combinations(graph_dict.keys(),i)
     for combi in combination_result:
