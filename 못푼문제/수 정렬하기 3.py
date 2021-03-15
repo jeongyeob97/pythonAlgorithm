@@ -1,5 +1,12 @@
+from collections import defaultdict
 import sys
-n = int(sys.stdin.readline().strip())
-list1 = [sys.stdin.readline().strip() for i in range(n)]
-for i in sorted(list1):
-    print(i)
+a = defaultdict(int)
+set1 = set()
+for i in range(int(sys.stdin.readline().strip())):
+    num = int(sys.stdin.readline().strip())
+    set1.add(num)
+    a[num]+=1
+
+for i in sorted(set1):
+    for j in range(a[i]):
+        print(i)
