@@ -4,6 +4,8 @@ step = list(map(int, input().split()))
 answer = [float('inf')]*n
 
 for i in steps:
+    if i >= n:
+        continue
     answer[i-1] = step[i-1]
 
 for i in range(n):
@@ -12,3 +14,4 @@ for i in range(n):
             answer[i+j] = min(answer[i+j], answer[i] + step[i+j])
 
 print([answer[-1], -1][answer[-1] == float('inf')])
+
